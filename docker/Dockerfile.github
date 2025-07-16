@@ -1,0 +1,32 @@
+FROM python:3.10-slim
+
+# 创建目录
+RUN mkdir -p ./app
+
+WORKDIR /app
+
+
+## 拷贝pip配置
+RUN mkdir -p /root/.pip
+COPY docker/resource/pip.conf /root/.pip/
+
+
+# 拷贝项目资源
+# 项目代码
+COPY static /app/static
+COPY ocr /app/ocr
+
+RUN \
+    sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources && \
+    sed -i 's|security.debian.org/debian-security|mirrors.aliyun.com/debian-security|g' /etc/apt/sources.list.d/debian.sources && \
+    apt-get update && \
+    apt-get install ffmpeg libsm6 libxext6  -y && \
+    ip install --verbose -r /app/ocr/requirements-cpu.txt && \
+    rm -rf /app/ocr/requirements-cpu.txt && \
+    rm -rf /root/.cache && \
+    rm -rf /tmp/* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# 启动命令
+CMD python3 /app/ocr/start_server.py --host 0.0.0.0 --port 8088
