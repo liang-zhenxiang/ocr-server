@@ -8,7 +8,7 @@ WORKDIR /app
 
 ## 拷贝pip配置
 RUN mkdir -p /root/.pip
-COPY docker/resource/pip.conf /root/.pip/
+COPY pip.conf /root/.pip/
 
 
 # 拷贝项目资源
