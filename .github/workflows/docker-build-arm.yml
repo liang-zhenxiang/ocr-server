@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: crpi-t4c9d7kjq90m6bu4.cn-shenzhen.personal.cr.aliyuncs.com
   NAMESPACE: flydiy-base
-  IMAGE_NAME: semantic-splitter-server
+  IMAGE_NAME: nts-backend-foundation-ocr-api
 
 jobs:
   build:
